@@ -1,0 +1,30 @@
+# Virtual environment
+bin/
+lib/
+lib64/
+lib64
+
+# Compiled Python files
+*.pyc
+*.pyo
+
+# Python bytecode cache
+__pycache__/
+.pytest_cache/
+
+# Tools specific files
+.python-version
+.pyenv_version
+pyvenv.cfg
+.directory
+pip-selfcheck.json
+.idea/
+include/
+
+# Logs and error output files
+.coverage
+coverage.txt
+*.log
+*.out
+*.err# created by virtualenv automatically
+
