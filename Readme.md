@@ -2,6 +2,10 @@
 
 The guide outlines a comprehensive process to build and deploy a machine learning application using Flask and scikit-learn, packaged in a Docker container. It is broken down into three main parts:
 
+![image](https://github.com/juliuschou/helloContainerWithFlaskAndScikitLearnApp/assets/4725611/c8cc32e7-ee46-47e7-9df7-cf76101bada2)
+
+image source: https://engineering.rappi.com/serve-your-first-model-with-scikit-learn-flask-docker-df95efbbd35e
+
 1.  Creating a Flask Application with scikit-learn Model:
     
     -   First, you initialize a Python project and create a virtual environment.
