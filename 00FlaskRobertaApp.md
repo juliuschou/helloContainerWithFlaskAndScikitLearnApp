@@ -4,25 +4,17 @@ Step 1: Set Up the Project
 
 1.  Create a new directory for your project:
     
-    arduinoCopy code
-    
     `mkdir flask-roberta-app` 
     
 2.  Navigate into the project directory:
-    
-    bashCopy code
     
     `cd flask-roberta-app` 
     
 3.  Initialize a Git repository:
     
-    csharpCopy code
-    
     `git init` 
     
 4.  Create a virtual environment:
-    
-    Copy code
     
     `python -m venv venv` 
     
@@ -60,6 +52,14 @@ Step 2: Develop the Flask Application
         
         import onnxruntime
         
+        
+        app = Flask(__name__)
+        
+        tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
+        
+        session = onnxruntime. InferenceSession ("roberta-sequence-classification-9.onnx")
+        
+        
         @app.route("/predict", methods=["POST"]) 
         
         def predict():
@@ -82,21 +82,15 @@ Step 2: Develop the Flask Application
             return jsonify({"positive": bool(result)r)
     
         if __name__ == "main":
-        
-            app = Flask(__name__)
-            
-            tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
-            
-            session = onnxruntime. InferenceSession ("roberta-sequence-classification-9.onnx")
             
             app.run(host="0.0.0.0", port=5000, debug=True)
             
-    
-
    
-4.  Integrate the RoBERTa model into your Flask app. You can use the Hugging Face Transformers library to load and use the model.
-    
-5.  Implement the necessary routes for your application, such as routes to receive input data and return classification results.
+4.  Download the RoBERTa-SequenceClassification (https://oreil. ly/Pjvit) ONNX model locally, and place it at the root of the project
+
+    curl https://github.com/onnx/models/blob/main/text/machine_comprehension/roberta/model/roberta-sequence-classification-9.onnx --output roberta-sequence-classification-9.onnx
+
+        
     
 
 Step 3: Create a Dockerfile
