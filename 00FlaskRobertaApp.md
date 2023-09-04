@@ -1,4 +1,4 @@
-Task 1: Create a Flask Application with RoBERTa Sequence Classification Model in a Container and Publish to GitHub Repository
+Task 1: Create a Flask Application with RoBERTa Sequence Classification Model in a Container and Publish to Docker Hub
 
 Step 1: Set Up the Project
 
@@ -152,7 +152,6 @@ Step 6: Add GitHub Actions for Build Verification
 2.  Define the workflow using a YAML file (e.g., `.github/workflows/build.yml`). Here's an example workflow that builds and tests the Docker container:
   
 
-
         name: Build and Test
         
         on:
@@ -176,40 +175,13 @@ Step 6: Add GitHub Actions for Build Verification
         
             - name: Publish Docker image
               run: |
-                echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                docker tag flask-roberta-app $DOCKER_USERNAME/flask-roberta-app:latest
-                docker push $DOCKER_USERNAME/flask-roberta-app:latest
+                echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+                docker tag flask-roberta-app ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
+                docker push ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
               env:
                 DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-                DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+                DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
-This example workflow triggers on pushes to the `master` branch, builds the Docker image, runs tests, and then publishes the image to Docker Hub.
+The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
 
-Task 2: Modify the ONNX Container to Push to Docker Hub
-
-Step 1: Modify Docker Build Process
-
-1.  Open the Dockerfile for your ONNX container.
-2.  Add the necessary steps for logging in to Docker Hub securely using environment variables or secrets.
-
-Step 2: Push to Docker Hub
-
-1.  Build the modified ONNX container:
-    
-    
-    `docker build -t onnx-container .` 
-    
-2.  Tag the image for Docker Hub:
-    
-    
-    `docker tag onnx-container username/onnx-container:tag` 
-    
-3.  Push the tagged image to Docker Hub:
-    
-    
-    `docker push username/onnx-container:tag` 
-    
-
-Replace `username` with your Docker Hub username and `tag` with the desired version.
-
-Please note that these steps provide a general outline, and you'll need to adapt them to your specific project's requirements and configurations.
+Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
