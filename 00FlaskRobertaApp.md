@@ -10,15 +10,11 @@ Step 1: Set Up the Project
     
     `cd flask-roberta-app` 
     
-3.  Initialize a Git repository:
-    
-    `git init` 
-    
-4.  Create a virtual environment:
+3.  Create a virtual environment:
     
     `python -m venv venv` 
     
-5.  Activate the virtual environment:
+4.  Activate the virtual environment:
     
     -   On Windows: `venv\Scripts\activate`
     -   On macOS and Linux: `source venv/bin/activate`
@@ -125,29 +121,11 @@ Step 4: Build and Test the Docker Container
 3.  Access your Flask app in a web browser or use a tool like `curl` to make requests to `http://localhost:5000`.
     
 
-Step 5: Publish to GitHub Repository
+Step 5: Adding a Workflow to Your Git Repository
 
-1.  Create a new repository on GitHub.
+1.  Create a GitHub Actions workflow file in the .github/workflows directory with the name build.yml
     
-2.  Link your local Git repository to the remote GitHub repository:
-    
-    csharpCopy code
-    
-    `git remote add origin <repository-url>` 
-    
-3.  Commit and push your code to GitHub:
-    
-    
-    git add .
-    git commit -m "Initial commit"
-    git push -u origin master
-    
-
-Step 6: Add GitHub Actions for Build Verification
-
-1.  In your GitHub repository, navigate to the "Actions" tab and create a new workflow.
-    
-2.  Define the workflow using a YAML file (e.g., `.github/workflows/build.yml`). Here's an example workflow that builds and tests the Docker container:
+2.  Here's an example workflow that builds and tests the Docker container:
   
 
         name: Build and Test
@@ -180,8 +158,63 @@ Step 6: Add GitHub Actions for Build Verification
                 DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
                 DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
-The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
+    The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
 
-Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
+    Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
 
+Step 5: Publish to GitHub Repository
+
+1. Configuring GitHub to Avoid Using Username and Password
+
+    To interact with GitHub without the need for entering a username and password every time, you can configure SSH authentication. Here are the steps:
+
+2. Generate SSH Key
+    
+    `ssh-keygen -t ed25519 -C "your_email@example.com"` 
+   
+3. Configure Git to Use SSH
+
+    - Set your Git username and email address, and configure Git to use SSH. Use the following commands:
+
+            git config --global user.name "Your GitHub Username"
+            git config --global user.email "your_email@example.com"
+
+4. Add SSH Key to GitHub Account
+
+    1.  Log into your GitHub account.
+    2.  Click on your profile picture → Settings → SSH and GPG keys → New SSH key.
+    3.  Paste the contents of your `id_ed25519.pub` file into the "Key" field, give your key a descriptive title, and click "Add SSH key".
+
+
+5. Create an Empty Repository on GitHub    
+
+    Before you can push your code, you need to create an empty repository on GitHub:
+
+    1. Log in to your GitHub account.
+    2. Click on the "+" sign in the top right corner of the GitHub website.
+    3. Select "New repository" from the dropdown menu.
+    4. Give your repository a name and, optionally, a description.
+    5. Choose if you want your repository to be public or private (private repositories may require a paid GitHub plan).
+    6. Do not select any checkboxes for initializing the repository with README, .gitignore, or a license, as we'll push an existing repository.
+    7. Click on the "Create repository" button.
+
+6. Push Code to GitHub
+
+    Now that you have generated an SSH key, added it to your GitHub account, configured Git to use SSH, and created an empty repository on GitHub, you can push your code to GitHub:
+
+        # Navigate to your project directory (the directory where your code is located) 
+        cd /path/to/your/project # Initialize Git (if not already initialized) 
+        git init
+        
+        # Add the files you want to commit to the staging area 
+        git add . 
+        
+        # Commit the changes with a meaningful message 
+        git commit -m "Your commit message here" 
+        
+        # set remote github repository
+        git remote add origin git@github.com:YourUsername/YourRepository.git
+        
+        # Push the committed changes to the master branch of your GitHub repository 
+        git push origin master
 
