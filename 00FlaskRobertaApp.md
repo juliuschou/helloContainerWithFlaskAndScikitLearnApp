@@ -27,12 +27,12 @@ Step 2: Develop the Flask Application
 
 1. Create a `requirements.txt` file and add the required packages:
 
-    simpletransformers==0.4.0
-    tensorboardX==1.9
-    transformers==2.1.0
-    flask==1.1.2
-    torch==1.7.1
-    onnxruntime==1.6.0
+        simpletransformers==0.4.0
+        tensorboardX==1.9
+        transformers==2.1.0
+        flask==1.1.2
+        torch==1.7.1
+        onnxruntime==1.6.0
 
 2. Install the dependencies listed in `requirements.txt`:
 
@@ -61,7 +61,6 @@ Step 2: Develop the Flask Application
         
         
         @app.route("/predict", methods=["POST"]) 
-        
         def predict():
         
             input_ids = torch.tensor(
@@ -82,7 +81,6 @@ Step 2: Develop the Flask Application
             return jsonify({"positive": bool(result)r)
     
         if __name__ == "main":
-            
             app.run(host="0.0.0.0", port=5000, debug=True)
             
    
@@ -185,3 +183,5 @@ Step 6: Add GitHub Actions for Build Verification
 The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
 
 Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
+
+
