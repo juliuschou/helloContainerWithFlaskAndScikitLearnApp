@@ -33,31 +33,35 @@ Step 1: Set Up the Project
 
 Step 2: Develop the Flask Application
 
-1.  Install Flask:
+1. Create a `requirements.txt` file and add the required packages:
+
+makefileCopy code
+
+`Flask==2.0.1
+transformers==4.10.0`
+
+2. Install the dependencies listed in `requirements.txt`:
+
+Copy code
+
+`pip install -r requirements.txt`
+
     
-    Copy code
-    
-    `pip install Flask` 
-    
-2.  Create an `app.py` file and write your Flask application code. Here's a basic example:
+3.  Create an `app.py` file and write your Flask application code. Here's a basic example:
     
 
-pythonCopy code
-
-`from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return "Hello, Flask App with RoBERTa!"
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)` 
+        from flask import Flask
+        
+        app = Flask(__name__)
+        
+        @app.route('/')
+        def hello():
+            return "Hello, Flask App with RoBERTa!"
+        
+        if __name__ == '__main__':
+            app.run(host='0.0.0.0', port=5000)
 
 3.  Install Hugging Face Transformers:
-    
-    Copy code
     
     `pip install transformers` 
     
@@ -75,23 +79,16 @@ Step 3: Create a Dockerfile
 
 DockerfileCopy code
 
-`FROM python:3.8
-
-WORKDIR /app
-
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-
-COPY . .
-
-CMD ["python", "app.py"]` 
-
-3.  Create a `requirements.txt` file listing your app's dependencies:
+    FROM python:3.8
     
-    Copy code
+    WORKDIR /app
     
-    `Flask
-    transformers` 
+    COPY requirements.txt requirements.txt
+    RUN pip install -r requirements.txt
+    
+    COPY . .
+    
+    CMD ["python", "app.py"]
     
 
 Step 4: Build and Test the Docker Container
@@ -123,11 +120,10 @@ Step 5: Publish to GitHub Repository
     
 3.  Commit and push your code to GitHub:
     
-    sqlCopy code
     
-    `git add .
+    git add .
     git commit -m "Initial commit"
-    git push -u origin master` 
+    git push -u origin master
     
 
 Step 6: Add GitHub Actions for Build Verification
@@ -135,39 +131,38 @@ Step 6: Add GitHub Actions for Build Verification
 1.  In your GitHub repository, navigate to the "Actions" tab and create a new workflow.
     
 2.  Define the workflow using a YAML file (e.g., `.github/workflows/build.yml`). Here's an example workflow that builds and tests the Docker container:
+  
+
+
+    name: Build and Test
     
-
-yamlCopy code
-
-`name: Build and Test
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build Docker image
-      run: docker build -t flask-roberta-app .
-
-    - name: Run tests
-      run: docker run flask-roberta-app python -m unittest discover
-
-    - name: Publish Docker image
-      run: |
-        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker tag flask-roberta-app $DOCKER_USERNAME/flask-roberta-app:latest
-        docker push $DOCKER_USERNAME/flask-roberta-app:latest
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}` 
+    on:
+      push:
+        branches:
+          - master
+    
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+    
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+    
+        - name: Build Docker image
+          run: docker build -t flask-roberta-app .
+    
+        - name: Run tests
+          run: docker run flask-roberta-app python -m unittest discover
+    
+        - name: Publish Docker image
+          run: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker tag flask-roberta-app $DOCKER_USERNAME/flask-roberta-app:latest
+            docker push $DOCKER_USERNAME/flask-roberta-app:latest
+          env:
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 This example workflow triggers on pushes to the `master` branch, builds the Docker image, runs tests, and then publishes the image to Docker Hub.
 
@@ -182,19 +177,16 @@ Step 2: Push to Docker Hub
 
 1.  Build the modified ONNX container:
     
-    Copy code
     
     `docker build -t onnx-container .` 
     
 2.  Tag the image for Docker Hub:
     
-    bashCopy code
     
     `docker tag onnx-container username/onnx-container:tag` 
     
 3.  Push the tagged image to Docker Hub:
     
-    bashCopy code
     
     `docker push username/onnx-container:tag` 
     
