@@ -98,35 +98,29 @@ Step 3: Create a Dockerfile
 1.  Create a file named `Dockerfile` in the project directory.
     
 2.  Add the following content to the Dockerfile:
-    
 
-
-    FROM python: 3.8
-    
-    COPY . /requirements.txt /webapp/requirements.txt
-    
-    WORKDIR /webapp
-    
-    RUN pip install -r requirements. txt
-    
-    COPY webapp/* /webapp
-    
-    ENTRYPOINT ["python" ]
-    
-    CMD ["app.py"]
+        FROM python: 3.8
+        
+        COPY . /requirements.txt /webapp/requirements.txt
+        
+        WORKDIR /webapp
+        
+        RUN pip install -r requirements. txt
+        
+        COPY webapp/* /webapp
+        
+        ENTRYPOINT ["python" ]
+        
+        CMD ["app.py"]
     
 
 Step 4: Build and Test the Docker Container
 
 1.  Build the Docker container:
     
-    Copy code
-    
     `docker build -t flask-roberta-app .` 
     
 2.  Run the container:
-    
-    arduinoCopy code
     
     `docker run -p 5000:5000 flask-roberta-app` 
     
@@ -159,35 +153,35 @@ Step 6: Add GitHub Actions for Build Verification
   
 
 
-    name: Build and Test
-    
-    on:
-      push:
-        branches:
-          - master
-    
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-    
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-    
-        - name: Build Docker image
-          run: docker build -t flask-roberta-app .
-    
-        - name: Run tests
-          run: docker run flask-roberta-app python -m unittest discover
-    
-        - name: Publish Docker image
-          run: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker tag flask-roberta-app $DOCKER_USERNAME/flask-roberta-app:latest
-            docker push $DOCKER_USERNAME/flask-roberta-app:latest
-          env:
-            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        name: Build and Test
+        
+        on:
+          push:
+            branches:
+              - master
+        
+        jobs:
+          build:
+            runs-on: ubuntu-latest
+        
+            steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+        
+            - name: Build Docker image
+              run: docker build -t flask-roberta-app .
+        
+            - name: Run tests
+              run: docker run flask-roberta-app python -m unittest discover
+        
+            - name: Publish Docker image
+              run: |
+                echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                docker tag flask-roberta-app $DOCKER_USERNAME/flask-roberta-app:latest
+                docker push $DOCKER_USERNAME/flask-roberta-app:latest
+              env:
+                DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 This example workflow triggers on pushes to the `master` branch, builds the Docker image, runs tests, and then publishes the image to Docker Hub.
 
