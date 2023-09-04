@@ -35,36 +35,65 @@ Step 2: Develop the Flask Application
 
 1. Create a `requirements.txt` file and add the required packages:
 
-makefileCopy code
-
-`Flask==2.0.1
-transformers==4.10.0`
+    simpletransformers==0.4.0
+    tensorboardX==1.9
+    transformers==2.1.0
+    flask==1.1.2
+    torch==1.7.1
+    onnxruntime==1.6.0
 
 2. Install the dependencies listed in `requirements.txt`:
 
-Copy code
-
-`pip install -r requirements.txt`
+    pip install -r requirements.txt
 
     
 3.  Create an `app.py` file and write your Flask application code. Here's a basic example:
     
 
-        from flask import Flask
+        from flask import Flask, request, jsonify 
         
-        app = Flask(__name__)
+        import torch
         
-        @app.route('/')
-        def hello():
-            return "Hello, Flask App with RoBERTa!"
+        import numpy as np 
         
-        if __name__ == '__main__':
-            app.run(host='0.0.0.0', port=5000)
+        from transformers import RobertaTokenizer 
+        
+        import onnxruntime
+        
+        @app.route("/predict", methods=["POST"]) 
+        
+        def predict():
+        
+            input_ids = torch.tensor(
+                tokenizer.encode(request.json[0], add_special_tokens=True)
+            ).unsqueeze(0)
+    
+            if input_ids.requires_grad:
+                numpy_func = input_ids.detach().cpu().num()
+            else:
+                numpy_func = input_ids.cpu().numy()    
+                
+            inputs = {session.get_inputs () [0].name: numpy_ func(input_ids)}
+            
+            out = session.run(None, inputs)
+            
+            result = np. argmax (out)
+            
+            return jsonify({"positive": bool(result)r)
+    
+        if __name__ == "main":
+        
+            app = Flask(__name__)
+            
+            tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
+            
+            session = onnxruntime. InferenceSession ("roberta-sequence-classification-9.onnx")
+            
+            app.run(host="0.0.0.0", port=5000, debug=True)
+            
+    
 
-3.  Install Hugging Face Transformers:
-    
-    `pip install transformers` 
-    
+   
 4.  Integrate the RoBERTa model into your Flask app. You can use the Hugging Face Transformers library to load and use the model.
     
 5.  Implement the necessary routes for your application, such as routes to receive input data and return classification results.
@@ -77,18 +106,20 @@ Step 3: Create a Dockerfile
 2.  Add the following content to the Dockerfile:
     
 
-DockerfileCopy code
 
-    FROM python:3.8
+    FROM python: 3.8
     
-    WORKDIR /app
+    COPY . /requirements.txt /webapp/requirements.txt
     
-    COPY requirements.txt requirements.txt
-    RUN pip install -r requirements.txt
+    WORKDIR /webapp
     
-    COPY . .
+    RUN pip install -r requirements. txt
     
-    CMD ["python", "app.py"]
+    COPY webapp/* /webapp
+    
+    ENTRYPOINT ["python" ]
+    
+    CMD ["app.py"]
     
 
 Step 4: Build and Test the Docker Container
