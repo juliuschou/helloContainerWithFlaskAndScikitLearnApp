@@ -47,26 +47,26 @@ Here's how you can download a BERT model from Hugging Face, load it in TensorFlo
 
 pythonCopy code
 
-`import tensorflow as tf
-from transformers import BertTokenizer, TFBertForSequenceClassification
-from onnx_tf.backend import prepare
-
-# Download and load the BERT model
-model_name = "bert-base-uncased"
-tokenizer = BertTokenizer.from_pretrained(model_name)
-model = TFBertForSequenceClassification.from_pretrained(model_name)
-
-# Save the TensorFlow model in SavedModel format
-saved_model_path = "bert_saved_model"
-tf.saved_model.save(model, saved_model_path)
-
-# Load the TensorFlow model
-tf_model = tf.keras.models.load_model(saved_model_path)
-
-# Convert the TensorFlow model to ONNX format using ONNX-TF converter
-onnx_model = prepare(tf_model)
-onnx_path = "bert_model.onnx"
-onnx_model.export(onnx_path)` 
+        import tensorflow as tf
+        from transformers import BertTokenizer, TFBertForSequenceClassification
+        from onnx_tf.backend import prepare
+        
+        # Download and load the BERT model
+        model_name = "bert-base-uncased"
+        tokenizer = BertTokenizer.from_pretrained(model_name)
+        model = TFBertForSequenceClassification.from_pretrained(model_name)
+        
+        # Save the TensorFlow model in SavedModel format
+        saved_model_path = "bert_saved_model"
+        tf.saved_model.save(model, saved_model_path)
+        
+        # Load the TensorFlow model
+        tf_model = tf.keras.models.load_model(saved_model_path)
+        
+        # Convert the TensorFlow model to ONNX format using ONNX-TF converter
+        onnx_model = prepare(tf_model)
+        onnx_path = "bert_model.onnx"
+        onnx_model.export(onnx_path)
 
 Replace `"bert-base-uncased"` with the specific variant of the BERT model you want to use. You can find the available variants on the Hugging Face Model Hub.
 
