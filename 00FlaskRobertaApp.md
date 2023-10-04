@@ -77,8 +77,11 @@ Create a Flask Application with RoBERTa Sequence Classification Model in a Conta
             
    
 4.  Download the RoBERTa-SequenceClassification (https://oreil.ly/Pjvit) ONNX model locally, and place it at the webapp folder
+   ![image](https://github.com/juliuschou/helloContainerWithFlaskAndScikitLearnApp/assets/4725611/5fbeccc1-a02f-4de3-98c0-962474116711)
 
-        curl https://github.com/onnx/models/blob/main/text/machine_comprehension/roberta/model/roberta-sequence-classification-9.onnx --output roberta-sequence-classification-9.onnx
+![image](https://github.com/juliuschou/helloContainerWithFlaskAndScikitLearnApp/assets/4725611/bedbd0ac-4086-4b00-bb64-f95049f90e9c)
+
+        curl -LJO https://github.com/onnx/models/raw/main/text/machine_comprehension/roberta/model/roberta-sequence-classification-9.onnx
 
         
     
