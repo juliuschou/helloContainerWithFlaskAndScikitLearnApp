@@ -100,19 +100,20 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
     
 2.  Add the following content to the Dockerfile:
 
-        FROM python: 3.7
+        FROM python:3.7
         
         COPY ./requirements.txt /webapp/requirements.txt
         
         WORKDIR /webapp
         
-        RUN pip install -r requirements. txt
+        RUN pip install -r requirements.txt
         
         COPY webapp/* /webapp
         
         ENTRYPOINT ["python" ]
         
         CMD ["app.py"]
+
     
 
 ## Step 4: Build and Test the Docker Container
