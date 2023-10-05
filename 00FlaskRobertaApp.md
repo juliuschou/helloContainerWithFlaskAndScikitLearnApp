@@ -134,48 +134,6 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
    
         curl -X POST -H "Content-Type: application/json" -d '["This is a good film"]' http://127.0.0.1:5000/predict
 
-    
-
-## Step 5: Adding a Workflow to Your Git Repository
-
-1.  Create a GitHub Actions workflow file in the .github/workflows directory with the name build.yml
-    
-2.  Here's an example workflow that builds and tests the Docker container:
-  
-
-        name: Build and Test
-        
-        on:
-          push:
-            branches:
-              - master
-        
-        jobs:
-          build:
-            runs-on: ubuntu-latest
-        
-            steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-        
-            - name: Build Docker image
-              run: docker build -t flask-roberta-app .
-        
-            - name: Run tests
-              run: docker run flask-roberta-app python -m unittest discover
-        
-            - name: Publish Docker image
-              run: |
-                echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-                docker tag flask-roberta-app ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
-                docker push ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
-              env:
-                DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-                DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-
-    The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
-
-    Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
 
 ## Step 5: Publish to GitHub Repository
 
@@ -233,3 +191,43 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
         # Push the committed changes to the master branch of your GitHub repository 
         git push origin master
 
+## Step 6: Adding a Workflow to Your Git Repository
+
+1.  Create a GitHub Actions workflow file in the .github/workflows directory with the name build.yml
+    
+2.  Here's an example workflow that builds and tests the Docker container:
+  
+
+        name: Build and Test
+        
+        on:
+          push:
+            branches:
+              - master
+        
+        jobs:
+          build:
+            runs-on: ubuntu-latest
+        
+            steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+        
+            - name: Build Docker image
+              run: docker build -t flask-roberta-app .
+        
+            - name: Run tests
+              run: docker run flask-roberta-app python -m unittest discover
+        
+            - name: Publish Docker image
+              run: |
+                echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+                docker tag flask-roberta-app ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
+                docker push ${{ secrets.DOCKER_USERNAME }}/flask-roberta-app:latest
+              env:
+                DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+    The DOCKER_TOKEN secret is expected to be a Docker access token that you've created in your Docker Hub account. Access tokens are more secure for automation and can be scoped to specific actions.
+
+    Make sure you have added the DOCKER_USERNAME and DOCKER_TOKEN secrets in your GitHub repository settings. The DOCKER_USERNAME secret should be your Docker Hub username, and the DOCKER_TOKEN secret should be the access token you've generated for Docker Hub authentication.
