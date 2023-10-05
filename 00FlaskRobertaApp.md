@@ -22,9 +22,10 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
     simpletransformers==0.4.0
     tensorboardX==1.9
     transformers==2.1.0
-    flask==1.1.2
+    Flask==2.2.5
     torch==1.7.1
-    onnxruntime==1.6.0
+    onnxruntime==1.14.1
+
 
 
     #Install the dependencies listed in `requirements.txt`:
