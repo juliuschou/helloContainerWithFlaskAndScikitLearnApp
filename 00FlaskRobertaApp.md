@@ -1,5 +1,12 @@
 Create a Flask Application with RoBERTa Sequence Classification Model in a Container and Publish to Docker Hub
 
+## Prerequisite
+
+### Install Docker
+
+follow the second section 2 to install Docker from [Comprehensive Guide to Building and Deploying a Flask and scikit-learn Application in a Docker Container on Ubuntu](https://github.com/juliuschou/helloContainerWithFlaskAndScikitLearnApp#comprehensive-guide-to-building-and-deploying-a-flask-and-scikit-learn-application-in-a-docker-container-on-ubuntu)
+
+
 ## Step 1: Set Up the Project
 
     #Create a python virtual env 
