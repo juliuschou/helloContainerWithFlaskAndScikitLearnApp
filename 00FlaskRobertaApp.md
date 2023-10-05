@@ -102,7 +102,7 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
 
         FROM python: 3.7
         
-        COPY . /requirements.txt /webapp/requirements.txt
+        COPY ./requirements.txt /webapp/requirements.txt
         
         WORKDIR /webapp
         
