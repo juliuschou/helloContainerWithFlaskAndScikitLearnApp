@@ -124,13 +124,16 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
 
 2. Double-check that the image is now available after building
     
-        docker images flask-roberta-app    
+        sudo docker images flask-roberta-app    
 
 3.  Run the container:
     
-        docker run -p 5000:5000 flask-roberta-app
+        sudo docker run -p 5000:5000 flask-roberta-app
     
 4.  Access your Flask app in a web browser or use a tool like `curl` to make requests to `http://localhost:5000`.
+   
+        curl -X POST -H "Content-Type: application/json" -d '["This is a good film"]' http://127.0.0.1:5000/predict
+
     
 
 ## Step 5: Adding a Workflow to Your Git Repository
