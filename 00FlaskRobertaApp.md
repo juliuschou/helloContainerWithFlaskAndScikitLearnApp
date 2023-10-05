@@ -120,7 +120,7 @@ follow the second section 2 to install Docker from [Comprehensive Guide to Build
 
 1.  Build the Docker container:
     
-        docker build -t flask-roberta-app .
+        sudo docker build -t flask-roberta-app .
 
 2. Double-check that the image is now available after building
     
