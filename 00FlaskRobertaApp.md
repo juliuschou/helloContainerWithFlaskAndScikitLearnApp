@@ -1,5 +1,9 @@
 Create a Flask Application with RoBERTa Sequence Classification Model in a Container
 
+## Summary:
+
+This guide outlines the process of creating a Flask application integrating RoBERTa for sequence classification and deploying it in a Docker container. The steps encompass setting up the project, developing the Flask application, preparing the Docker environment, and pushing the project to a GitHub repository. Users are required to have Docker installed and should be familiar with basic Python and Flask principles.
+
 ## Prerequisite
 
 ### Install Docker
